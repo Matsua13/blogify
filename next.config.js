@@ -3,6 +3,10 @@ const webpack = require('webpack');
 
 /** @type {import('next').NextConfig} */
 module.exports = {
+  // Configuration pour autoriser certains domaines d'images
+  images: {
+    domains: ['via.placeholder.com', 'your-other-domain.com'],
+  },
   webpack: (config, { isServer }) => {
     // Fournir des fallbacks pour certains modules Node côté client
     config.resolve.fallback = {
