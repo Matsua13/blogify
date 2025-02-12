@@ -1,23 +1,18 @@
+import prisma from "@/lib/prisma";
+import { notFound } from "next/navigation";
+
 // app/post/[id]/page.tsx
-import prisma from '@/lib/prisma';
-import { notFound } from 'next/navigation';
-
-interface Params {
-  params: { id: string };
-}
-
-export default async function PostPage({ params }: Params) {
-  const postId = Number(params.id);
+export default async function PostPage({ params: { id } }: { params: { id: string } }) {
+  const postId = Number(id);
   const post = await prisma.post.findUnique({ where: { id: postId } });
-
+  // Par exemple, si le post n'existe pas ou n'est pas publié, vous pouvez renvoyer une page 404 :
   if (!post || !post.published) {
-    notFound();
+    return notFound();
   }
-
   return (
-    <main style={{ padding: '2rem' }}>
+    <article>
       <h1>{post.title}</h1>
       <p>{post.content}</p>
-    </main>
+    </article>
   );
 }
